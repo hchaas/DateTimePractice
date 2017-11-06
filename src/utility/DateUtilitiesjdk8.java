@@ -25,8 +25,22 @@ public class DateUtilitiesjdk8 {
     }
     
     /*this method converts a date object to a string using a format that the user passes in*/
-    public void convertDateToStringCustom(LocalDate date, String formatString){
-        
+    public void convertDateToStringCustom(LocalDate date, String formatString) throws IllegalArgumentException{
+        if (date == null){
+            throw new IllegalArgumentException("Date cannot be null.");
+        }
+        if (formatString.contains("h") || formatString.contains("s")){
+            throw new IllegalArgumentException("Format string invalid; simple format does not contain"
+                    + "hours or seconds.");
+        }
+        try{
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(formatString);
+        String strDate = date.format(format);
+        System.out.println("Date with user-defined format: " + strDate);
+        }
+        catch (IllegalArgumentException iae){
+            throw new IllegalArgumentException("Format string invalid.");
+        }
     }
     
     /*two methods to convert string to date/time objects*/
